@@ -71,6 +71,7 @@ class Triples {
             board.append(row)
         }
         newgame(false)
+        print("here1")
         score = TotalScore()
     }
     
@@ -101,6 +102,7 @@ class Triples {
         spawn(false)
         spawn(false)
         spawn(false)
+        print("here2")
         score = TotalScore()
     }
     
@@ -199,33 +201,23 @@ class Triples {
             return false
         }
     }
-    /*
-    func shift() {
+    
+    func printBoard() {
         for i in 0...3 {
             for j in 0...3 {
-                if j >= 1 {
-                    if board[i][j-1].val == 0 {
-                        board[i][j-1].val = board[i][j].val
-                        board[i][j].val = 0
-                    } else if (board[i][j-1].val == board[i][j].val && board[i][j-1].val != 2 && board[i][j].val != 2) ||
-                                (board[i][j-1].val == 2 && board[i][j].val == 1) ||
-                                (board[i][j-1].val == 1 && board[i][j].val == 2) {
-                        let temp = board[i][j-1].val
-                        board[i][j-1].val = board[i][j-1].val + board[i][j].val
-                        if temp != board[i][j-1].val {
-                            score += temp
-                        }
-                        board[i][j].val = 0
-                    }
-                }
+                print(board[i][j].val)
             }
         }
-    } */
+    }
+    
     
     func shift() {
+        print()
+        printBoard()
+        print()
         for i in 0...3{
-            if (board[i][0].val == 0){
-                for j in 0..<board.count - 1{
+            if (board[i][0].val == 0) {
+                for j in 0..<board.count - 1 {
                     board[i][j] = board[i][j+1]
                 }
                 board[i][board.count - 1].val = 0
@@ -236,17 +228,84 @@ class Triples {
                         ((board[i][k].val >= 3) && (board[i][k+1].val == board[i][k].val)) ||
                         ((board[i][k].val) == 0))  {
                         
-                        if(board[i][k].val != 0 && board[i][k+1].val != 0) {
-                            score = score + board[i][k].val + board[i][k].val
+                        if(i - 1 >= 0) {
+                            if(board[i][k].val != 0 && board[i-1][k].val != 0) {
+                                print("adding score board[\(i)][\(k)] \(board[i][k].val), board[\(i-1)][\(k)] \(board[i-1][k].val)")
+                                score += board[i][k].val + board[i-1][k].val
+                            }
+                            board[i][k].val = board[i][k].val + board[i][k+1].val
+                            board[i][k+1].val = 0
                         }
-                        board[i][k].val = board[i][k].val + board[i][k+1].val
-                        board[i][k+1].val = 0
                     }
                 }
             }
         }
-    }
+    } 
+    /*
+    func shift() {
+        print()
+        printBoard()
+        print()
 
+         for i in 0...3 {
+             for j in 0...3 {
+                 if j >= 1 {
+                    if board[i][j-1].val == 0 {
+                        board[i][j-1].val = board[i][j].val
+                        board[i][j].val = 0
+                         //print("no combine: \(score)")
+                    } else if (board[i][j-1].val == board[i][j].val && board[i][j-1].val != 2) ||
+                                (board[i][j-1].val == 2 && board[i][j].val == 1) ||
+                                (board[i][j-1].val == 1 && board[i][j].val == 2) {
+                        print("adding score board[\(i)][\(j)] \(board[i][j].val), board[\(i)][\(j-1)] \(board[i][j-1].val)")
+                        board[i][j-1].val = board[i][j-1].val + board[i][j].val
+                        score += board[i][j-1].val
+                        board[i][j].val = 0
+                     }
+                 }
+             }
+         }
+     } */
+
+    /*
+    func shift() {
+        print()
+        printBoard()
+        print()
+        for i in 0...3 {
+            for j in 0...2 {
+                if board[i][j].val == 0 {
+                    board[i][j].val = board[i][j+1].val
+                    board[i][j].row = i
+                    board[i][j].col = j
+                    board[i][j+1].val = 0
+                    board[i][j+1].row = i
+                    board[i][j+1].col = j + 1
+                }
+                else if board[i][j].val == 1 {
+                    if board[i][j+1].val != 0 && board[i][j+1].val == 2 {
+                        print("adding score board[\(i)][\(j)] \(board[i][j].val), board[\(i)][\(j+1)] \(board[i][j+1].val)")
+                        board[i][j].val = 3
+                        board[i][j+1].val = 0
+                        score += 3
+                    }
+                }
+                else if board[i][j].val == 2 {
+                    if board[i][j+1].val != 0 && board[i][j+1].val == 1 {
+                        board[i][j].val = 3
+                        board[i][j+1].val = 0
+                        score += 3
+                        
+                    }
+                }
+                else if board[i][j+1].val != 0 && board[i][j].val ==  board[i][j+1].val  {
+                    board[i][j].val *= 2
+                    board[i][j+1].val = 0
+                    score += board[i][j].val
+                }
+            }
+        }
+    } */
     
     func copy_array(array: [[Tile]]) -> [[Tile]] {
         var result:[[Tile]] = [[Tile]] ()

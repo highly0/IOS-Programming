@@ -372,7 +372,8 @@ struct GameGrid: View {
             ForEach(0...3, id:\.self) { row in
                 HStack (spacing: 10) {
                     ForEach(0...3, id:\.self) { column in
-                        tileArr[row][column]
+                        TileView(tile: MyBoard.board[row][column], isPortrait: self.isPortrait)
+                        //tileArr[row][column]
                             .offset(x: offX, y: offY)
                     }
                 }
@@ -422,7 +423,7 @@ struct GameInstruction: View {
     var body: some View {
         VStack(spacing:15) {
             Button(action: {
-                print("Press Left ")
+                print("Press up ")
                 MyBoard.collapse(dir: .up)
                 MyBoard.spawn(true)
                 score = MyBoard.score
